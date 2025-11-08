@@ -77,7 +77,7 @@ if submitted:
         all_weeks.append(calculate_week_plan("Bankdrücken", bp, w))
         all_weeks.append(calculate_week_plan("Kniebeuge", sq, w))
 
-    full_plan = pd.concat(all_weeks)
+    full_plan = pd.concat(all_weeks).sort_values(by=["Tag", "Übung", "Woche"]).reset_index(drop=True)
     st.subheader("📅 Trainingsplan")
     st.dataframe(full_plan)
 
