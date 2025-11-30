@@ -14,12 +14,15 @@ def calculate_week_plan(lift_name, one_rm, week, tag, deload=False):
         intensities = [0.60]  # Deload bei 60% 1RM
         reps_sets = [(3, 2)]
     else:
-        if tag in [1, 3]:  # Haupttage: Squat, Bench, Deadlift
+        if tag == 1:  # Tag 1 = schwer
             intensities = [0.85, 0.70]  # schwer + moderat
             reps_sets = [(3, 3), (2, 5)]
-        elif tag == 2:  # Zusatzübungen
+        elif tag == 2:  # Tag 2 = Zusatzübungen
             intensities = [0.70, 0.65]
             reps_sets = [(3, 6), (3, 8)]
+        elif tag == 3:  # Tag 3 = Volumen/Technik
+            intensities = [0.75, 0.65]
+            reps_sets = [(4, 5), (3, 8)]
 
     for (sets, reps), intensity in zip(reps_sets, intensities):
         weight = round_up_to_2_5(one_rm * intensity)
@@ -67,7 +70,7 @@ if submitted:
     for w in range(start_week, start_week + weeks_total):
         deload = (w % 8 == 0)
 
-        # Tag 1: Grundübungen
+        # Tag 1: Grundübungen schwer
         all_weeks.append(calculate_week_plan("Squat", sq, w, tag=1, deload=deload))
         all_weeks.append(calculate_week_plan("Bench Press", bp, w, tag=1, deload=deload))
         all_weeks.append(calculate_week_plan("Deadlift", dl, w, tag=1, deload=deload))
@@ -77,7 +80,7 @@ if submitted:
         all_weeks.append(calculate_week_plan("Barbell Row", br, w, tag=2, deload=deload))
         all_weeks.append(calculate_week_plan("Dips", dp, w, tag=2, deload=deload))
 
-        # Tag 3: Grundübungen
+        # Tag 3: Grundübungen Volumen/Technik
         all_weeks.append(calculate_week_plan("Squat", sq, w, tag=3, deload=deload))
         all_weeks.append(calculate_week_plan("Bench Press", bp, w, tag=3, deload=deload))
         all_weeks.append(calculate_week_plan("Deadlift", dl, w, tag=3, deload=deload))
